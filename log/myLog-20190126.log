@@ -1,0 +1,171 @@
+1、访问日志：http://127.0.0.1/aspectTest/divide?a=100&b=3
+
+2019-01-26 21:10:37.281 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-preHandle：请求路径:/aspectTest/divide,参数:{a=100, b=3}
+2019-01-26 21:10:37.310 [demo.spring.aspect.web.AspectTestController]-[INFO] params:{a=100, b=3}
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面around - start[className=AspectServiceImpl][methodName=divide]
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面Before（下面打印方法及参数）
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] [className = demo.spring.aspect.service.impl.AspectServiceImpl][methodName = divide][methodArgs = 100,3]
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面around - end[className=AspectServiceImpl][methodName=divide][result=33]-耗时:0ms
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面After
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面AfterReturning（下面打印方法、参数及结果）
+2019-01-26 21:10:37.318 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] [className = demo.spring.aspect.service.impl.AspectServiceImpl][methodName = divide][methodArgs = 100,3][result=33]
+2019-01-26 21:10:37.318 [demo.spring.aspect.web.AspectTestController]-[INFO] result:{result=33, a=100, b=3}
+2019-01-26 21:10:37.320 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-postHandle：请求路径:/aspectTest/divide,运行结束
+2019-01-26 21:10:37.320 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-afterCompletion：请求路径:/aspectTest/divide,运行结束
+
+2、访问日志（测异常捕捉）：http://127.0.0.1/aspectTest/divide?a=100&b=0
+
+2019-01-26 21:12:01.941 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-preHandle：请求路径:/aspectTest/divide,参数:{a=100, b=0}
+2019-01-26 21:12:01.942 [demo.spring.aspect.web.AspectTestController]-[INFO] params:{a=100, b=0}
+2019-01-26 21:12:01.942 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面around - start[className=AspectServiceImpl][methodName=divide]
+2019-01-26 21:12:01.942 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面Before（下面打印方法及参数）
+2019-01-26 21:12:01.942 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] [className = demo.spring.aspect.service.impl.AspectServiceImpl][methodName = divide][methodArgs = 100,0]
+2019-01-26 21:12:01.945 [demo.spring.aspect.myAspect.MyAopAspect]-[ERROR] / by zero
+java.lang.ArithmeticException: / by zero
+	at demo.spring.aspect.service.impl.AspectServiceImpl.divide(AspectServiceImpl.java:21)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:333)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85)
+	at demo.spring.aspect.myAspect.MyAopAspect.around(MyAopAspect.java:69)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:629)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:618)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:47)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy21.divide(Unknown Source)
+	at demo.spring.aspect.web.AspectTestController.divide(AspectTestController.java:45)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.bind.annotation.support.HandlerMethodInvoker.invokeHandlerMethod(HandlerMethodInvoker.java:180)
+	at org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.invokeHandlerMethod(AnnotationMethodHandlerAdapter.java:440)
+	at org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.handle(AnnotationMethodHandlerAdapter.java:428)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:230)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:474)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:624)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:349)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:783)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:798)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1434)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+2019-01-26 21:12:01.952 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面After
+2019-01-26 21:12:01.952 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] [className = demo.spring.aspect.service.impl.AspectServiceImpl][methodName = divide][methodArgs = 100,0][result=切面-方法异常--/ by zero]
+2019-01-26 21:12:01.957 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-afterCompletion：请求路径:/aspectTest/divide,运行结束
+一月 26, 2019 9:12:01 下午 org.apache.catalina.core.StandardWrapperValve invoke
+严重: Servlet.service() for servlet [dispatcher] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: / by zero] with root cause
+java.lang.RuntimeException: / by zero
+	at demo.spring.aspect.myAspect.MyAopAspect.around(MyAopAspect.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:629)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:618)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:47)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy21.divide(Unknown Source)
+	at demo.spring.aspect.web.AspectTestController.divide(AspectTestController.java:45)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.bind.annotation.support.HandlerMethodInvoker.invokeHandlerMethod(HandlerMethodInvoker.java:180)
+	at org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.invokeHandlerMethod(AnnotationMethodHandlerAdapter.java:440)
+	at org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.handle(AnnotationMethodHandlerAdapter.java:428)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:230)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:474)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:624)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:349)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:783)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:798)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1434)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+
+
+3、访问日志（重点看拦截器针对拦截）：http://127.0.0.1/aspectTest/addFromTo?start=1&end=1073741824
+
+2019-01-26 21:25:35.993 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-preHandle：请求路径:/aspectTest/addFromTo,参数:{start=1, end=1073741824}
+2019-01-26 21:25:35.993 [demo.spring.handler.AspectTestHandlerInterceptor]-[INFO] mvc自定义请求拦截：AspectTestHandlerInterceptor 的处理（空处理）
+2019-01-26 21:25:36.011 [demo.spring.aspect.web.AspectTestController]-[INFO] params:{start=1, end=1073741824}
+2019-01-26 21:25:36.018 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面around - start[className=AspectServiceImpl][methodName=addFromTo]
+2019-01-26 21:25:36.019 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面Before（下面打印方法及参数）
+2019-01-26 21:25:36.019 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] [className = demo.spring.aspect.service.impl.AspectServiceImpl][methodName = addFromTo][methodArgs = 1,1073741824]
+2019-01-26 21:25:37.726 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面around - end[className=AspectServiceImpl][methodName=addFromTo][result=576460751766552576]-耗时:1708ms
+2019-01-26 21:25:37.727 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面After
+2019-01-26 21:25:37.727 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] 切面AfterReturning（下面打印方法、参数及结果）
+2019-01-26 21:25:37.727 [demo.spring.aspect.myAspect.MyAopAspect]-[INFO] [className = demo.spring.aspect.service.impl.AspectServiceImpl][methodName = addFromTo][methodArgs = 1,1073741824][result=576460751766552576]
+2019-01-26 21:25:37.727 [demo.spring.aspect.web.AspectTestController]-[INFO] result:{result=576460751766552576, start=1, end=1073741824}
+2019-01-26 21:25:37.728 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-postHandle：请求路径:/aspectTest/addFromTo,运行结束
+2019-01-26 21:25:37.728 [demo.spring.handler.CommonHandlerInterceptor]-[INFO] mvc自定义请求拦截-afterCompletion：请求路径:/aspectTest/addFromTo,运行结束
+

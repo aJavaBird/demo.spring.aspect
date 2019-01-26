@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="demo.spring.aspect" use-default-filters="false">
+    	<!-- 自动扫描@Controller 注解 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<!-- 自动扫描@Service 注解 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<!-- 自动扫描@Component 注解 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+	</context:component-scan>
+	
+	<!-- 开启aop注解方式,默认为false -->
+	<!-- 如果proxy-target-class 属性值被设置为true，那么基于类的代理将起作用（这时需要cglib库）。如果proxy-target-class属值被设置为false或者这个属性被省略，那么标准的JDK 基于接口的代理将起作用。 -->
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true"/> -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<!--配置拦截器-->
+    <mvc:interceptors>
+        <!--<bean class="com.ma.interceptor.CustomeInterceptor" />-->
+        <!-- 自定义公共拦截器 -->
+        <mvc:interceptor>
+            <!--配置拦截器的作用路径-->
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/aspectTest/addFromTo"/>
+            <!--定义在<mvc:interceptor>下面的表示匹配指定路径的请求才进行拦截-->
+            <bean class="demo.spring.handler.CommonHandlerInterceptor"/>
+        </mvc:interceptor>
+        <!-- 自定义小范围拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/aspectTest/addFromTo"/>
+            <bean class="demo.spring.handler.AspectTestHandlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
+</beans>
